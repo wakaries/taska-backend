@@ -61,11 +61,15 @@ class Task
     #[ORM\OneToMany(mappedBy: 'task', targetEntity: Watcher::class)]
     private Collection $watchers;
 
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'tasks')]
+    private Collection $taskTag;
+
     public function __construct()
     {
         $this->worklogs = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->watchers = new ArrayCollection();
+        $this->taskTag = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -291,6 +295,30 @@ class Task
                 $watcher->setTask(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTaskTag(): Collection
+    {
+        return $this->taskTag;
+    }
+
+    public function addTaskTag(Tag $taskTag): self
+    {
+        if (!$this->taskTag->contains($taskTag)) {
+            $this->taskTag->add($taskTag);
+        }
+
+        return $this;
+    }
+
+    public function removeTaskTag(Tag $taskTag): self
+    {
+        $this->taskTag->removeElement($taskTag);
 
         return $this;
     }
