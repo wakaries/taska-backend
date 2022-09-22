@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TaskRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -49,6 +51,22 @@ class Task
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     private ?User $currentUser = null;
+
+    #[ORM\OneToMany(mappedBy: 'task', targetEntity: Worklog::class)]
+    private Collection $worklogs;
+
+    #[ORM\OneToMany(mappedBy: 'task', targetEntity: Comment::class)]
+    private Collection $comments;
+
+    #[ORM\OneToMany(mappedBy: 'task', targetEntity: Watcher::class)]
+    private Collection $watchers;
+
+    public function __construct()
+    {
+        $this->worklogs = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->watchers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -183,6 +201,96 @@ class Task
     public function setCurrentUser(?User $currentUser): self
     {
         $this->currentUser = $currentUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Worklog>
+     */
+    public function getWorklogs(): Collection
+    {
+        return $this->worklogs;
+    }
+
+    public function addWorklog(Worklog $worklog): self
+    {
+        if (!$this->worklogs->contains($worklog)) {
+            $this->worklogs->add($worklog);
+            $worklog->setTask($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorklog(Worklog $worklog): self
+    {
+        if ($this->worklogs->removeElement($worklog)) {
+            // set the owning side to null (unless already changed)
+            if ($worklog->getTask() === $this) {
+                $worklog->setTask(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setTask($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getTask() === $this) {
+                $comment->setTask(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Watcher>
+     */
+    public function getWatchers(): Collection
+    {
+        return $this->watchers;
+    }
+
+    public function addWatcher(Watcher $watcher): self
+    {
+        if (!$this->watchers->contains($watcher)) {
+            $this->watchers->add($watcher);
+            $watcher->setTask($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWatcher(Watcher $watcher): self
+    {
+        if ($this->watchers->removeElement($watcher)) {
+            // set the owning side to null (unless already changed)
+            if ($watcher->getTask() === $this) {
+                $watcher->setTask(null);
+            }
+        }
 
         return $this;
     }
