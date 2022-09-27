@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Project;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,18 @@ class TaskRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function listByProjectDQL(Project $project)
+    {
+        $dql = "SELECT t FROM App\Entity\Task t 
+                JOIN t.epic e 
+                WHERE e.project = :project 
+                ORDER BY t.title";
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('project', $project);
+
+        return $query->getArrayResult();
     }
 
 //    /**

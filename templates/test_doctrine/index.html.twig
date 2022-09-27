@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestDoctrineController!{% endblock %}
+
+{% block body %}
+{{ dump(projectList) }}
+
+<table>
+<thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Tasks</th>
+    </tr>
+</thead>
+<tbody>
+    {% for project in projectList %}
+    <tr>
+        <td>{{ project.project.id }}</td>
+        <td>{{ project.project.name }}</td>
+        <td>
+            {{ project.taskCount }}
+        {#
+            {% set contador = 0 %}
+            {% for epic in project.epics %}
+                {% for task in epic.tasks %}
+                    {% set contador = contador + 1 %}
+                {% endfor %}
+            {% endfor %}
+            {{ contador }}
+        #}
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endblock %}

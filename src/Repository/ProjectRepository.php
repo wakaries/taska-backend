@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Project;
+use App\Entity\Space;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,54 @@ class ProjectRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function listTaskCountBySpace(Space $space)
+    {
+        $dql = "SELECT p as project, COUNT(t) as taskCount, AVG(t) as taskAvg
+            FROM App\Entity\Project p 
+            JOIN p.epics e
+            JOIN e.tasks t
+            WHERE p.space = :space
+            GROUP BY p.id
+            ORDER BY COUNT(t) DESC
+        ";
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('space', $space);
+
+        return $query->execute();
+    }
+
+    public function listTaskCountBySpaceQueryBuilder(Space $space)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select(['p as project', 'COUNT(t) as taskCount', 'AVG(t) as taskAvg'])
+            ->join('p.epics', 'e')
+            ->join('e.tasks', 't')
+            ->where('p.space = :space')
+            ->groupBy('p.id')
+            ->orderBy('taskCount', 'DESC')
+            ->setParameter('space', $space);
+        ;
+        return $qb->getQuery()->execute();
+    }
+
+    public function listBySpaceDQL(Space $space)
+    {
+        $dql = 'SELECT project FROM App\Entity\Project project WHERE project.space = :spc';
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('spc', $space);
+
+        return $query->getArrayResult();
+    }
+
+    public function listBySpaceQueryBuilder(Space $space)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.space = :space')
+            ->setParameter('space', $space);
+        ;
+        return $qb->getQuery()->execute();
     }
 
 //    /**
