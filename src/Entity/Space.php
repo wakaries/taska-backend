@@ -16,7 +16,7 @@ class Space
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::GUID)]
+    #[ORM\Column(type: Types::GUID, unique:true)]
     private ?string $uuid = null;
 
     #[ORM\Column(length: 255)]

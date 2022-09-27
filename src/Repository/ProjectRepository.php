@@ -88,6 +88,35 @@ class ProjectRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
+    public function filter($filter)
+    {
+        $qb = $this->createQueryBuilder('prj')
+            ->select('prj, s, up, u')
+            ->join('prj.space', 's')
+            ->join('prj.userProjects', 'up')
+            ->join('up.user', 'u')
+            ->orderBy('prj.name')
+        ;
+        if (isset($filter['space'])) {
+            $qb->andWhere('s.uuid = :space');
+            $qb->setParameter('space', $filter['space']);
+        }
+        if (isset($filter['user'])) {
+            $qb->andWhere('u.username = :username');
+            $qb->setParameter('username', $filter['user']);
+        }
+        return $qb->getQuery()->execute();
+    }
+
+    public function getByUuid($uuid)
+    {
+        $dql = "SELECT p FROM App\Entity\Project p WHERE p.uuid = :uuid";
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('uuid', $uuid);
+
+        return $query->getArrayResult();
+    }
+
 //    /**
 //     * @return Project[] Returns an array of Project objects
 //     */
