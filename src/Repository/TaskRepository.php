@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Project;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -50,6 +51,33 @@ class TaskRepository extends ServiceEntityRepository
         $query->setParameter('project', $project);
 
         return $query->getArrayResult();
+    }
+
+    public function filter($params)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->orderBy('t.title')
+        ;
+        if (isset($params['project'])) {
+            $qb->join('t.epic', 'e');
+            $qb->join('e.projects', 'p');
+            $qb->andWhere('p.alias = :prj_alias');
+            $qb->setParameter('prj_alias', $params['project']);
+        }
+        if (isset($params['title'])) {
+            $qb->andWhere('t.title like :title');
+            $qb->setParameter('title', '%' . $params['title'] . '%');
+        }
+        return $qb->getQuery()->execute();
+    }
+
+    public function getByUuid($uuid)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->where('t.uuid = :uuid')
+            ->setParameter('uuid', $uuid)
+        ;
+        return $qb->getQuery()->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
 //    /**
