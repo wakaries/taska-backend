@@ -8,6 +8,7 @@ use Behat\Behat\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * This context class contains the definitions of the steps used by the demo
@@ -29,11 +30,20 @@ final class DemoContext implements Context
     }
 
     /**
-     * @Given a fixtured database
+     * @Given a fixtured database with group :group
      */
-    public function aFixturedDatabase()
+    public function aFixturedDatabaseWithGroup($group)
     {
-
+        $commands = [
+            'php bin/console --env=test doctrine:database:drop --force',
+            'php bin/console --env=test doctrine:database:create',
+            'php bin/console --env=test doctrine:migrations:migrate -n',
+            'php bin/console --env=test doctrine:fixtures:load -n --group=' . $group
+        ];
+        foreach ($commands as $command) {
+            $process = Process::fromShellCommandline($command);
+            $process->run();    
+        }
     }
     
     /**

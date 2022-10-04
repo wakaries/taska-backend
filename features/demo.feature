@@ -8,6 +8,5 @@ Feature:
     I want to have a demo scenario
 
     Scenario: It receives a response from Symfony's kernel
-        Given a fixtured database
         When a demo scenario sends a request to "/"
         Then the response should be received
