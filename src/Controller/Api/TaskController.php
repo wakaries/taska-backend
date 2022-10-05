@@ -61,7 +61,7 @@ class TaskController extends AbstractController
         $task->setAlias($alias);
         $task->setStatus('active');
         $task->setCreationDate(new \DateTime());
-        $user = $userRepository->find(404); // TODO Cambiar por usuario de sesión
+        $user = $userRepository->findOneBy(['username' => 'username1']); // TODO Cambiar por usuario de sesión
         $task->setCreationUser($user);
         $epic = $epicRepository->findOneBy(['uuid' => $body['epic']]);
         $task->setEpic($epic);
@@ -80,38 +80,33 @@ class TaskController extends AbstractController
         ]);
     }
 
-    /*
-    #[Route('/api/projects/{uuid}', methods:['PATCH'])]
-    public function update(Request $request, $uuid): Response
+    #[Route('/{uuid}', methods:['PUT'])]
+    public function update(EpicRepository $epicRepository, Request $request, $uuid): Response
     {
         $body = json_decode($request->getContent(), true);
-        $project = $this->projectRepository->findOneBy(['uuid' => $uuid]);
-        if (isset($body['alias'])) {
-            $project->setAlias($body['alias']);
-        }
-        if (isset($body['name'])) {
-            $project->setName($body['name']);
-        }
-        if (isset($body['description'])) {
-            $project->setDescription($body['description']);
-        }
+        $task = $this->taskRepository->findOneBy(['uuid' => $uuid]);
+        $task->setTitle($body['title']);
+        $task->setDescription($body['description']);
+        $task->setType($body['type']);
+        $epic = $epicRepository->findOneBy(['uuid' => $body['epic']]);
+        $task->setEpic($epic);
         $this->em->flush();
 
         return $this->json([
-            'uuid' => $project->getUuid()
+            'uuid' => $task->getUuid()
         ]);
     }
 
-    #[Route('/api/projects/{uuid}', methods:['DELETE'])]
+    #[Route('/{uuid}', methods:['DELETE'])]
     public function delete($uuid): Response
     {
-        $project = $this->projectRepository->findOneBy(['uuid' => $uuid]);
-        $this->em->remove($project);
+        $task = $this->taskRepository->findOneBy(['uuid' => $uuid]);
+        $this->em->remove($task);
         $this->em->flush();
 
         return $this->json([
-            'uuid' => $project->getUuid()
+            'uuid' => $task->getUuid()
         ]);
     }
-    */
+    
 }
