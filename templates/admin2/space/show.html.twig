@@ -1,0 +1,43 @@
+{% extends 'admin1/base.html.twig' %}
+
+{% block title %}Space{% endblock %}
+
+{% block actions %}
+    <a type="button" href="{{ path('app_admin2_space_index') }}" class="btn btn-sm btn-outline-secondary">
+    <span data-feather="calendar" class="align-text-bottom"></span>
+    Back to the list
+    </a>
+    <a type="button" href="{{ path('app_admin2_space_edit', {'id': space.id}) }}" class="btn btn-sm btn-outline-secondary">
+    <span data-feather="calendar" class="align-text-bottom"></span>
+    Edit
+    </a>
+    <a type="button" href="{{ path('app_admin2_space_predelete', {'id': space.id}) }}" class="btn btn-sm btn-outline-secondary">
+    <span data-feather="calendar" class="align-text-bottom"></span>
+    Delete
+    </a>
+{% endblock %}
+
+{% block content %}
+    <h1>Space</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ space.id }}</td>
+            </tr>
+            <tr>
+                <th>Uuid</th>
+                <td>{{ space.uuid }}</td>
+            </tr>
+            <tr>
+                <th>Alias</th>
+                <td>{{ space.alias }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ space.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

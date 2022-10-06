@@ -1,0 +1,7 @@
+{% extends 'admin1/base.html.twig' %}
+
+{% block content %}
+<p>¿Está seguro que quiere eliminar la entidad {{ space.name }}?
+
+    {{ include('admin2/space/_delete_form.html.twig') }}
+{% endblock %}

@@ -43,6 +43,11 @@ class Epic
         $this->tasks = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return '[' . $this->alias .'] ' . $this->title;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

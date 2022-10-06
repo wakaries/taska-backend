@@ -1,0 +1,23 @@
+{% extends "admin1/base.html.twig" %}
+
+{% block title %}TITULO MODIFICADO{% endblock %}
+
+{% block content %}
+    <table class="table table-striped table-sm">
+    <thead>
+    <tr>
+        <th scope="col">Alias</th>
+        <th scope="col">Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for space in spaces %}
+    <tr>
+        <td>{{ space.alias }}</td>
+        <td>{{ space.name | upper }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <p>{{ spaces | length }} spaces</p>
+{% endblock %}

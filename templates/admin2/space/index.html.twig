@@ -1,0 +1,43 @@
+{% extends 'admin1/base.html.twig' %}
+
+{% block title %}{% if title is defined %}{{ title }}{% else %}Titulo{% endif %} {% endblock %}
+
+{% block actions %}
+    <a type="button" href="{{ path('app_admin2_space_new') }}" class="btn btn-sm btn-outline-secondary">
+    <span data-feather="calendar" class="align-text-bottom"></span>
+    New space
+    </a>
+{% endblock %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Uuid</th>
+                <th>Alias</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for space in spaces %}
+            <tr>
+                <td>{{ space.id }}</td>
+                <td>{{ space.uuid }}</td>
+                <td>{{ space.alias }}</td>
+                <td>{{ space.name }}</td>
+                <td>
+                    <a href="{{ path('app_admin2_space_show', {'id': space.id}) }}">show</a>
+                    <a href="{{ path('app_admin2_space_edit', {'id': space.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
