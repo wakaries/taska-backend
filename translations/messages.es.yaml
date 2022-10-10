@@ -1,0 +1,4 @@
+Description: Descripción
+'Hello world': Hola mundo
+Creation user: Usuario de creación
+'{0}No rows available|{1}There is one row|]1,Inf[%count% rows are available': '{0}No hay filas|{1}Hay una fila disponible|]1,Inf[Hay %count% filas disponibles'

@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-6">
             <dl class="row">
-                <dt class="col-12">Description</dt>
+                <dt class="col-12">{{ 'Description' | trans }}</dt>
                 <dd class="col-12">{{ task.description }}</dd>
             </dl>
         </div>
@@ -32,7 +32,7 @@
                 <dt class="col-sm-3">Release</dt>
                 <dd class="col-sm-9">{{ task.release }}</dd>
                 <hr>
-                <dt class="col-sm-3">Creation user</dt>
+                <dt class="col-sm-3">{{ 'Creation user' | trans }}</dt>
                 <dd class="col-sm-9">{{ task.creationUser }}</dd>
                 <dt class="col-sm-3">Creation date</dt>
                 <dd class="col-sm-9">{{ task.creationDate | date('d/m/Y') }}</dd>
