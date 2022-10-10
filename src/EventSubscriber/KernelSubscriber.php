@@ -15,7 +15,7 @@ class KernelSubscriber implements EventSubscriberInterface
     {
         $event->getRequest()->attributes->set('section2', 'section2');
         //$event->getRequest()->setlocale('es');
-        $this->twig->addGlobal('section1', 'section1');
+        $this->twig->addGlobal('section', 'tasks');
     }
 
     public static function getSubscribedEvents(): array
