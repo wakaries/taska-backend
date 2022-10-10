@@ -3,5 +3,15 @@
 {% block title %}Tasks{% endblock %}
 
 {% block body %}
-TODO Task List
+TODO {{ 'Task List' | trans }} <br>
+Valor obtenido en el evento: {{ section1 }}<br>
+Valor establecido por configuración: {{ taska.section }}<br>
+Valor añadido como atributo del request: {{ app.request.attributes.get('section2') }}<br>
+<hr>
+{% trans with {'%count%':0} %}{0}No rows available|{1}There is one row|]1,Inf[ %count% rows are available{% endtrans %}<br>
+{% trans with {'%count%':1} %}{0}No rows available|{1}There is one row|]1,Inf[ %count% rows are available{% endtrans %}<br>
+{% trans with {'%count%':4} %}{0}No rows available|{1}There is one row|]1,Inf[ %count% rows are available{% endtrans %}<br>
+<br>
+{% set name = 'Jose' %}
+{{ 'Hello %name%' | trans({'%name%': name}) }}
 {% endblock %}

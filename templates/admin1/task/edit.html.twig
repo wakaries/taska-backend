@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block body %}
+
+<form novalidate method="post">
+    <div class="row">
+        <div class="col-4">{{ form_row(form.uuid)}}</div>
+        <div class="col-4">{{ form_row(form.creationUser)}}</div>
+        <div class="col-4">{{ form_row(form.creationDate)}}</div>
+    </div>
+    <div class="row">
+        <div class="col-6">{{ form_row(form.alias)}}</div>
+        <div class="col-6">{{ form_row(form.release)}}</div>
+    </div>
+    <div class="row">
+        <div class="col-6">{{ form_row(form.type)}}</div>
+        <div class="col-6">{{ form_row(form.status)}}</div>
+    </div>
+    {{ form_rest(form) }}
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

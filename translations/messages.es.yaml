@@ -1,0 +1,4 @@
+'{0}No rows available|{1}There is one row|]1,Inf[ %count% rows are available': '{0}No hay filas disponibles|{1}Hay una fila disponible|]1,Inf[ Hay %count% filas disponibles'
+'Hello %name%': 'Hola %name%'
+Description: Descripción
+'Task List': '__Task List'
