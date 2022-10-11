@@ -1,0 +1,24 @@
+{% if comments | length == 0 %}
+    <p>Sin comentarios</p>
+{% else %}
+    <div class="table-responsive">
+    <table class="table table-striped table-sm">
+    <thead>
+    <tr>
+        <th scope="col">User</th>
+        <th scope="col">Date</th>
+        <th scope="col">Comment</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for comment in comments %}
+    <tr>
+        <td>{{ comment.user }}</td>
+        <td>{{ comment.date | appdate }}</td>
+        <td>{{ comment.comment }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+{% endif %}

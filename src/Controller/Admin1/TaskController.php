@@ -3,7 +3,9 @@
 namespace App\Controller\Admin1;
 
 use App\Entity\Task;
+use App\Form\TaskType;
 use App\Repository\TaskRepository;
+use App\Repository\WorklogRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +32,25 @@ class TaskController extends AbstractController
         return $this->render('admin1/task/detail.html.twig', [
             'task' => $task,
             'section' => 'tasks'
+        ]);
+    }
+
+    public function comments(Task $task): Response
+    {
+        $comments = $task->getComments();
+        return $this->render('admin1/task/_comments.html.twig', [
+            'comments' => $comments
+        ]);
+    }
+
+    #[Route('/admin1/task/worklog/{uuid}')]
+    public function worklog($uuid, WorklogRepository $worklogRepository): Response
+    {
+        $task = $this->taskRepository->findOneBy(['uuid' => $uuid]);
+        $worklogs = $worklogRepository->findBy(['task' => $task], ['date' => 'DESC']);
+        return $this->render('admin1/task/_worklog.html.twig', [
+            'task' => $task,
+            'worklogs' => $worklogs
         ]);
     }
 

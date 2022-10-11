@@ -82,7 +82,7 @@ class Task
         return $this->uuid;
     }
 
-    public function setUuid(string $uuid): self
+    public function setUuid(?string $uuid): self
     {
         $this->uuid = $uuid;
 
@@ -94,7 +94,7 @@ class Task
         return $this->alias;
     }
 
-    public function setAlias(string $alias): self
+    public function setAlias(?string $alias): self
     {
         $this->alias = $alias;
 
@@ -130,7 +130,7 @@ class Task
         return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTimeInterface $creationDate): self
+    public function setCreationDate(?\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
 
@@ -142,7 +142,7 @@ class Task
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -154,7 +154,7 @@ class Task
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -166,7 +166,7 @@ class Task
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(?string $status): self
     {
         $this->status = $status;
 
@@ -178,7 +178,7 @@ class Task
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(?string $type): self
     {
         $this->type = $type;
 

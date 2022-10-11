@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use App\Entity\Epic;
 use App\Entity\Project;
 use App\Entity\Release;
@@ -12,11 +13,17 @@ use App\Entity\User;
 use App\Entity\UserProject;
 use App\Entity\Worklog;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Nelmio\Alice\Loader\NativeLoader;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements FixtureGroupInterface
 {
+    public static function getGroups(): array
+    {
+        return ['app'];
+    }
+    
     public function load(ObjectManager $manager): void
     {
         $loader = new NativeLoader();
@@ -104,7 +111,16 @@ class AppFixtures extends Fixture
                     'date' => '<dateTime()>',
                     'worklog' => '<numberBetween(10, 100)>'
                 ]
-            ]
+            ],
+            Comment::class => [
+                'comment{1..2000}' => [
+                    'task' => '@task*',
+                    'user' => '@user*',
+                    'uuid' => '<uuid()>',
+                    'date' => '<dateTime()>',
+                    'comment' => '<text()>'
+                ]
+            ],
         ]);
         foreach ($data->getObjects() as $item) {
             $manager->persist($item);

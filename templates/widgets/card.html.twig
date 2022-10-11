@@ -1,0 +1,12 @@
+<div class="card" style="width: 18rem;">
+{% block image %}
+  <img src="..." class="card-img-top" alt="...">
+{% endblock %}
+  <div class="card-body">
+    <h5 class="card-title">{% block title %}Card title{% endblock %}</h5>
+    <p class="card-text">{% block content %}Some quick example text to build on the card title and make up the bulk of the card's content.{% endblock %}</p>
+    {% block button %}
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+    {% endblock %}
+  </div>
+</div>

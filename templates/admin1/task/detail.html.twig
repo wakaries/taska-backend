@@ -22,7 +22,7 @@
         <div class="col-6">
             <dl class="row">
                 <dt class="col-12">{{ 'Description' | trans }}</dt>
-                <dd class="col-12">{{ task.description }}</dd>
+                <dd class="col-12">{{ task.description | raw }}</dd>
             </dl>
         </div>
         <div class="col-6">
@@ -53,10 +53,10 @@
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-  
+    {{ render(controller('App\\Controller\\Admin1\\TaskController::comments', {task:task})) }}
   </div>
   <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-  
+    {{ render(path('app_admin1_task_worklog', {uuid:task.uuid})) }}  
   </div>
 </div>
 
