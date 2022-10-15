@@ -1,0 +1,59 @@
+App\Domain\Core\Entity\Worklog:
+    type: entity
+    table: worklog
+    repositoryClass: App\Infrastructure\Doctrine\Repository\WorklogRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        uuid:
+            type: guid
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+        date:
+            type: date
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+        worklog:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+    manyToOne:
+        task:
+            targetEntity: App\Domain\Core\Entity\Task
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: worklogs
+            joinColumns:
+                task_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        user:
+            targetEntity: App\Domain\Core\Entity\User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: worklogs
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

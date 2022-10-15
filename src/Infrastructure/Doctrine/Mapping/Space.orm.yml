@@ -1,0 +1,55 @@
+App\Domain\Core\Entity\Space:
+    type: entity
+    table: space
+    repositoryClass: App\Infrastructure\Doctrine\Repository\SpaceRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        uuid:
+            type: guid
+            scale: null
+            length: null
+            unique: true
+            nullable: false
+            precision: null
+        alias:
+            type: string
+            scale: null
+            length: 255
+            unique: false
+            nullable: false
+            precision: null
+        name:
+            type: string
+            scale: null
+            length: 255
+            unique: false
+            nullable: false
+            precision: null
+    oneToMany:
+        users:
+            targetEntity: App\Domain\Core\Entity\User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: space
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        projects:
+            targetEntity: App\Domain\Core\Entity\Project
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: space
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }

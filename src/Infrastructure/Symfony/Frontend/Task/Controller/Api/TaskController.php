@@ -1,0 +1,112 @@
+<?php
+
+namespace App\Infrastructure\Symfony\Frontend\Task\Controller\Api;
+
+use App\Domain\Core\Repository\EpicRepositoryInterface;
+use App\Domain\Core\Repository\TaskRepositoryInterface;
+use App\Domain\Core\Repository\UserRepositoryInterface;
+use App\Entity\Task;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\Uid\Uuid;
+
+#[Route('/api/tasks')]
+class TaskController extends AbstractController
+{
+    public function __construct(
+        private TaskRepositoryInterface $taskRepository,
+        private EntityManagerInterface $em
+    ) {}
+
+    #[Route('', methods:['GET'])]
+    public function index(Request $request): Response
+    {
+        $params = $request->query->all();
+        $tasks = $this->taskRepository->filter($params);
+        $tasksResponse = [];
+        foreach ($tasks as $task) {
+            $tasksResponse[] = [
+                'uuid' => $task->getUuid(),
+                'title' => $task->getTitle(),
+                'status' => $task->getStatus(),
+                'project' => $task->getEpic()->getProject()->getAlias(),
+            ];
+        }
+        return new JsonResponse($tasksResponse);
+    }
+
+    #[Route('/{uuid}', methods:['GET'])]
+    public function detail($uuid): Response
+    {
+        $task = $this->taskRepository->getByUuid($uuid);
+        return new JsonResponse($task);
+    }
+
+    #[Route('', methods:['POST'])]
+    public function new(UserRepositoryInterface $userRepository, EpicRepositoryInterface $epicRepository, Request $request): Response {
+        $this->em->beginTransaction();
+        $body = json_decode($request->getContent(), true);
+        $task = new Task();
+        $task->setUuid('PENDING');
+        $task->setTitle($body['title']);
+        $task->setDescription($body['description']);
+        $task->setType($body['type']);
+        $slugger = new AsciiSlugger();
+        $alias = $slugger->slug($task->getTitle());
+        $task->setAlias($alias);
+        $task->setStatus('active');
+        $task->setCreationDate(new \DateTime());
+        $user = $userRepository->findOneBy(['username' => 'username1']); // TODO Cambiar por usuario de sesión
+        $task->setCreationUser($user);
+        $epic = $epicRepository->findOneBy(['uuid' => $body['epic']]);
+        $task->setEpic($epic);
+        $this->em->persist($task);
+        $this->em->flush();
+
+        $namespace = Uuid::v4();
+        $id = $task->getId();
+        $task->setUuid(Uuid::v3($namespace, $id));
+
+        $this->em->flush();
+        $this->em->commit();
+
+        return $this->json([
+            'uuid' => $task->getUuid()
+        ]);
+    }
+
+    #[Route('/{uuid}', methods:['PUT'])]
+    public function update(EpicRepositoryInterface $epicRepository, Request $request, $uuid): Response
+    {
+        $body = json_decode($request->getContent(), true);
+        $task = $this->taskRepository->findOneBy(['uuid' => $uuid]);
+        $task->setTitle($body['title']);
+        $task->setDescription($body['description']);
+        $task->setType($body['type']);
+        $epic = $epicRepository->findOneBy(['uuid' => $body['epic']]);
+        $task->setEpic($epic);
+        $this->em->flush();
+
+        return $this->json([
+            'uuid' => $task->getUuid()
+        ]);
+    }
+
+    #[Route('/{uuid}', methods:['DELETE'])]
+    public function delete($uuid): Response
+    {
+        $task = $this->taskRepository->findOneBy(['uuid' => $uuid]);
+        $this->em->remove($task);
+        $this->em->flush();
+
+        return $this->json([
+            'uuid' => $task->getUuid()
+        ]);
+    }
+    
+}

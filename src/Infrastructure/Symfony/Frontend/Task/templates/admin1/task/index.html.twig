@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block body %}
+<table class="table table-striped table-sm">
+<thead>
+<tr>
+    <th>Alias</th>
+    <th>Title</th>
+    <th>Status</th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+{% for task in tasks %}
+    <tr>
+        <td>{{ task.alias }}</td>
+        <td>{{ task.title }}</td>
+        <td>{{ task.status }}</td>
+        <td><a href="{{ path('app_admin1_task_edit', {uuid:task.uuid}) }}">Detail</a></td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

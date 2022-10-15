@@ -1,0 +1,51 @@
+App\Domain\Core\Entity\Tag:
+    type: entity
+    table: tag
+    repositoryClass: App\Infrastructure\Doctrine\Repository\TagRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        uuid:
+            type: guid
+            scale: null
+            length: null
+            unique: true
+            nullable: false
+            precision: null
+        name:
+            type: string
+            scale: null
+            length: 255
+            unique: false
+            nullable: false
+            precision: null
+    manyToOne:
+        project:
+            targetEntity: App\Domain\Core\Entity\Project
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: tags
+            joinColumns:
+                project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        tasks:
+            targetEntity: App\Domain\Core\Entity\Task
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: taskTag
+            inversedBy: null
+            joinTable: {  }
+            orderBy: null
+    lifecycleCallbacks: {  }

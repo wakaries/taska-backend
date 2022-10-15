@@ -1,0 +1,96 @@
+App\Domain\Core\Entity\Project:
+    type: entity
+    table: project
+    repositoryClass: App\Infrastructure\Doctrine\Repository\ProjectRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        uuid:
+            type: guid
+            scale: null
+            length: null
+            unique: true
+            nullable: false
+            precision: null
+        alias:
+            type: string
+            scale: null
+            length: 20
+            unique: false
+            nullable: false
+            precision: null
+        name:
+            type: string
+            scale: null
+            length: 255
+            unique: false
+            nullable: false
+            precision: null
+        description:
+            type: text
+            scale: null
+            length: null
+            unique: false
+            nullable: true
+            precision: null
+        status:
+            type: string
+            scale: null
+            length: 20
+            unique: false
+            nullable: false
+            precision: null
+    manyToOne:
+        space:
+            targetEntity: App\Domain\Core\Entity\Space
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: projects
+            joinColumns:
+                space_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        releases:
+            targetEntity: App\Domain\Core\Entity\Release
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: project
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        epics:
+            targetEntity: App\Domain\Core\Entity\Epic
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: project
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        userProjects:
+            targetEntity: App\Domain\Core\Entity\UserProject
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: project
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        tags:
+            targetEntity: App\Domain\Core\Entity\Tag
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: project
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }

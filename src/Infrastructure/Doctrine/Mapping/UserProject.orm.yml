@@ -1,0 +1,45 @@
+App\Domain\Core\Entity\UserProject:
+    type: entity
+    table: user_project
+    repositoryClass: App\Infrastructure\Doctrine\Repository\UserProjectRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        role:
+            type: string
+            scale: null
+            length: 20
+            unique: false
+            nullable: false
+            precision: null
+    manyToOne:
+        user:
+            targetEntity: App\Domain\Core\Entity\User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: userProjects
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        project:
+            targetEntity: App\Domain\Core\Entity\Project
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: userProjects
+            joinColumns:
+                project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

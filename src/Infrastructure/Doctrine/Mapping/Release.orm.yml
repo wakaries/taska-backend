@@ -1,0 +1,74 @@
+App\Domain\Core\Entity\Release:
+    type: entity
+    table: '`release`'
+    repositoryClass: App\Infrastructure\Doctrine\Repository\ReleaseRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        uuid:
+            type: guid
+            scale: null
+            length: null
+            unique: true
+            nullable: false
+            precision: null
+        startDate:
+            type: date
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            column: start_date
+        endDate:
+            type: date
+            scale: null
+            length: null
+            unique: false
+            nullable: true
+            precision: null
+            column: end_date
+        name:
+            type: string
+            scale: null
+            length: 255
+            unique: false
+            nullable: false
+            precision: null
+        status:
+            type: string
+            scale: null
+            length: 20
+            unique: false
+            nullable: false
+            precision: null
+    manyToOne:
+        project:
+            targetEntity: App\Domain\Core\Entity\Project
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: releases
+            joinColumns:
+                project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        tasks:
+            targetEntity: App\Domain\Core\Entity\Task
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: release
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }

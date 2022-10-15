@@ -1,3 +1,7 @@
-controllers:
-    resource: ../src/Controller/
+controllers_frontend:
+    resource: ../src/Infrastructure/Symfony/Frontend/Task/Controller
+    type: attribute
+
+controllers_api:
+    resource: ../src/Infrastructure/Symfony/Api
     type: attribute
