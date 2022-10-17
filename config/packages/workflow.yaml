@@ -1,0 +1,104 @@
+framework:
+    workflows:
+        epic:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'status'
+            supports:
+                - App\Entity\Epic
+            initial_marking: todo
+            places:
+                - todo
+                - standby
+                - inprogress
+                - done
+            transitions:
+                todo_to_inprogress:
+                    from: todo
+                    to: inprogress
+                todo_to_standby:
+                    from: todo
+                    to: standby
+                inprogress_to_done:
+                    from: inprogress
+                    to: done
+                inprogress_to_standby:
+                    from: inprogress
+                    to: standby
+                standby_to_inprogress:
+                    from: standby
+                    to: inprogress
+        task:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'status'
+            supports:
+                - App\Entity\Task
+            initial_marking: todo
+            places:
+                - todo
+                - inprogress
+                - done
+            transitions:
+                todo_to_inprogress:
+                    from: todo
+                    to: inprogress
+                todo_to_done:
+                    from: todo
+                    to: done
+                inprogress_to_done:
+                    from: inprogress
+                    to: done
+        story:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'status'
+            supports:
+                - App\Entity\Task
+            initial_marking: pending
+            places:
+                - pending
+                - functional
+                - functionalreview
+                - backlog
+                - todo
+                - inprogress
+                - inreview
+                - done
+            transitions:
+                pending_to_functional:
+                    from: pending
+                    to: functional
+                functional_to_functionalreview:
+                    from: functional
+                    to: functionalreview
+                functionalreview_to_backlog:
+                    from: functionalreview
+                    to: backlog
+                backlog_to_functional:
+                    from: backlog
+                    to: functional
+                backlog_to_todo:
+                    from: backlog
+                    to: todo
+                todo_to_inprogress:
+                    from: todo
+                    to: inprogress
+                todo_to_backlog:
+                    from: todo
+                    to: backlog
+                inprogress_to_inreview:
+                    from: inprogress
+                    to: inreview
+                inprogress_to_todo:
+                    from: inprogress
+                    to: todo
+                inreview_to_done:
+                    from: inreview
+                    to: done
+                inreview_to_inprogress:
+                    from: inreview
+                    to: inprogress

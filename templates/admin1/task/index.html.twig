@@ -3,5 +3,29 @@
 {% block title %}Tasks{% endblock %}
 
 {% block body %}
-TODO Task List
+<table class="table table-striped table-sm">
+    <thead>
+    <tr>
+        <th scope="col">Alias</th>
+        <th scope="col">Title</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.alias }}</td>
+        <td>{{ task.title }}</td>
+        <td>
+            {% if is_granted('TASK_VIEW', task) %}
+                <a class="btn" href="{{ path('app_admin1_task_detail', {uuid:task.uuid}) }}">{{ 'Detail'|trans }}</a>
+            {% endif %}
+            {% if is_granted('TASK_EDIT', task) %}
+                <a class="btn" href="{{ path('app_admin1_task_edit', {uuid:task.uuid}) }}">{{ 'Edit' | trans }}</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

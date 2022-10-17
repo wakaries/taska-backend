@@ -5,12 +5,12 @@
 {% block title %}
 <div class="btn-group">
   <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Dropdown button
+    {{ task.status }}
   </button>
   <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">Action</a></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
+  {% for transition in transitions %}
+    <li><a class="dropdown-item" href="{{ path('app_admin1_task_changestatus', {uuid:task.uuid, transition:transition.name}) }}">{{ transition.tos.0 }}</a></li>
+  {% endfor %}
   </ul>
 </div>
 {{ title }}
@@ -42,6 +42,8 @@
             </dl>
         </div>
     </div>
+
+{{ dump(transitions) }}
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
