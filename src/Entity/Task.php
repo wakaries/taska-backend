@@ -64,6 +64,24 @@ class Task
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'tasks')]
     private Collection $taskTag;
 
+    const TYPE_TASK = 'task';
+    const TYPE_BUG = 'bug';
+    const TYPE_STORY = 'story';
+
+    public static function getTypesKeys()
+    {
+        return array_values(self::getTypes());
+    }
+
+    public static function getTypes()
+    {
+        return [
+            'Task' => self::TYPE_TASK,
+            'Bug' => self::TYPE_BUG,
+            'Story' => self::TYPE_STORY
+        ];
+    }
+
     public function __construct()
     {
         $this->worklogs = new ArrayCollection();

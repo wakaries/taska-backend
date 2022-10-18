@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin1;
 
+use App\Application\Task\ListTasksQuery;
+use App\Domain\Task\TaskNotificationService;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
@@ -19,9 +21,9 @@ class TaskController extends AbstractController
     public function __construct(private TaskRepository $taskRepository, private EntityManagerInterface $em) {}
 
     #[Route('/admin1/task')]
-    public function index(): Response
+    public function index(ListTasksQuery $listTasksQuery): Response
     {
-        $tasks = $this->taskRepository->filter([]);
+        $tasks = $listTasksQuery->execute();
         return $this->render('admin1/task/index.html.twig', [
             'tasks' => $tasks
         ]);
@@ -60,11 +62,14 @@ class TaskController extends AbstractController
     }
 
     #[Route('/admin1/task/{uuid}/changestatus/{transition}')]
-    public function changestatus($uuid, $transition, WorkflowInterface $storyStateMachine): Response
+    public function changestatus($uuid, $transition, WorkflowInterface $storyStateMachine, TaskNotificationService $taskNotificationService): Response
     {
         $task = $this->taskRepository->findOneBy(['uuid' => $uuid]);
         $storyStateMachine->apply($task, $transition);
         $this->em->flush();
+
+        $taskNotificationService->sendNotification();
+        
         return $this->redirectToRoute('app_admin1_task_detail', [
             'uuid' => $task->getUuid()
         ]);

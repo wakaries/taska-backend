@@ -5,3 +5,9 @@ services:
 
     App\Tests\Behat\:
         resource: '../tests/Behat/*'
+
+    App\Domain\Task\TaskNotificationService:
+        public: true
+        arguments:
+            $sender: '%email_sender%'
+            
