@@ -5,6 +5,7 @@ namespace App\Infrastructure\Symfony\Frontend\Controller\Admin1;
 use App\Application\Task\DetailTaskQuery;
 use App\Application\Task\PersistTaskAction;
 use App\Application\Task\PersistTaskInput;
+use App\Application\Task\TaskObject;
 use App\Domain\Core\Entity\Task;
 use App\Infrastructure\Symfony\Frontend\Form\TaskType;
 use App\Infrastructure\Symfony\Security\Voter\TaskVoter;
@@ -77,9 +78,8 @@ class TaskController extends AbstractController
     public function edit(Request $request, DetailTaskQuery $detailTaskQuery, PersistTaskAction $persistTaskAction, $uuid = null): Response
     {
         if ($uuid == null) {
-            $task = new PersistTaskInput();
+            $task = new TaskObject();
             $task->setUuid('qwer');
-            // TODO Definir valores por defecto
         } else {
             $task = $detailTaskQuery->execute($uuid);
             //$this->denyAccessUnlessGranted(TaskVoter::EDIT, $task);
