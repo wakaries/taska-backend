@@ -7,13 +7,13 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
-                class: App\Entity\User
+                class: App\Domain\Core\Entity\User
                 property: username
     firewalls:
         api_login:
             pattern: ^/api/login
             stateless: true
-            user_checker: App\Security\UserChecker
+            user_checker: App\Infrastructure\Symfony\Security\UserChecker
             json_login:
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
@@ -29,7 +29,7 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            user_checker: App\Security\UserChecker
+            user_checker: App\Infrastructure\Symfony\Security\UserChecker
             form_login:
                 # "app_login" is the name of the route created previously
                 login_path: app_login

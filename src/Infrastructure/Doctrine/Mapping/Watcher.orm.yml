@@ -1,0 +1,45 @@
+App\Domain\Core\Entity\Watcher:
+    type: entity
+    table: watcher
+    repositoryClass: App\Infrastructure\Doctrine\Repository\WatcherRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        level:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+    manyToOne:
+        user:
+            targetEntity: App\Domain\Core\Entity\User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: watchers
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        task:
+            targetEntity: App\Domain\Core\Entity\Task
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: watchers
+            joinColumns:
+                task_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

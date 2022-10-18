@@ -6,7 +6,7 @@ framework:
                 type: 'method'
                 property: 'status'
             supports:
-                - App\Entity\Epic
+                - App\Domain\Core\Entity\Epic
             initial_marking: todo
             places:
                 - todo
@@ -35,7 +35,7 @@ framework:
                 type: 'method'
                 property: 'status'
             supports:
-                - App\Entity\Task
+                - App\Domain\Core\Entity\Task
             initial_marking: todo
             places:
                 - todo
@@ -57,7 +57,7 @@ framework:
                 type: 'method'
                 property: 'status'
             supports:
-                - App\Entity\Task
+                - App\Domain\Core\Entity\Task
             initial_marking: pending
             places:
                 - pending

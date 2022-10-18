@@ -1,0 +1,110 @@
+App\Domain\Core\Entity\User:
+    type: entity
+    table: user
+    repositoryClass: App\Infrastructure\Doctrine\Repository\UserRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        username:
+            type: string
+            scale: null
+            length: 180
+            unique: true
+            nullable: false
+            precision: null
+        roles:
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+        password:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+        name:
+            type: string
+            scale: null
+            length: 255
+            unique: false
+            nullable: false
+            precision: null
+        email:
+            type: string
+            scale: null
+            length: 255
+            unique: false
+            nullable: false
+            precision: null
+        status:
+            type: string
+            scale: null
+            length: 20
+            unique: false
+            nullable: false
+            precision: null
+    manyToOne:
+        space:
+            targetEntity: App\Domain\Core\Entity\Space
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: users
+            joinColumns:
+                space_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        userProjects:
+            targetEntity: App\Domain\Core\Entity\UserProject
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: user
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        tasks:
+            targetEntity: App\Domain\Core\Entity\Task
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: creationUser
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        worklogs:
+            targetEntity: App\Domain\Core\Entity\Worklog
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: user
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        comments:
+            targetEntity: App\Domain\Core\Entity\Comment
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: user
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        watchers:
+            targetEntity: App\Domain\Core\Entity\Watcher
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: user
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }

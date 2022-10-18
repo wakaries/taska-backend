@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Watcher;
+use App\Domain\Core\Entity\Watcher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

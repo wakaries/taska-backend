@@ -1,0 +1,72 @@
+App\Domain\Core\Entity\Epic:
+    type: entity
+    table: epic
+    repositoryClass: App\Infrastructure\Doctrine\Repository\EpicRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        uuid:
+            type: guid
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+        alias:
+            type: string
+            scale: null
+            length: 20
+            unique: false
+            nullable: false
+            precision: null
+        title:
+            type: string
+            scale: null
+            length: 255
+            unique: false
+            nullable: false
+            precision: null
+        description:
+            type: text
+            scale: null
+            length: null
+            unique: false
+            nullable: true
+            precision: null
+        status:
+            type: string
+            scale: null
+            length: 20
+            unique: false
+            nullable: false
+            precision: null
+    manyToOne:
+        project:
+            targetEntity: App\Domain\Core\Entity\Project
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: epics
+            joinColumns:
+                project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        tasks:
+            targetEntity: App\Domain\Core\Entity\Task
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: epic
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }

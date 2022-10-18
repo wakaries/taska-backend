@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Epic;
+use App\Domain\Core\Entity\Epic;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

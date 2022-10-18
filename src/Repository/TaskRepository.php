@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Project;
-use App\Entity\Task;
+use App\Domain\Core\Entity\Project;
+use App\Domain\Core\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;

@@ -1,0 +1,153 @@
+App\Domain\Core\Entity\Task:
+    type: entity
+    table: task
+    repositoryClass: App\Infrastructure\Doctrine\Repository\TaskRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        uuid:
+            type: guid
+            scale: null
+            length: null
+            unique: true
+            nullable: false
+            precision: null
+        alias:
+            type: string
+            scale: null
+            length: 20
+            unique: false
+            nullable: false
+            precision: null
+        creationDate:
+            type: datetime
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            column: creation_date
+        title:
+            type: string
+            scale: null
+            length: 255
+            unique: false
+            nullable: false
+            precision: null
+        description:
+            type: text
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+        status:
+            type: string
+            scale: null
+            length: 20
+            unique: false
+            nullable: false
+            precision: null
+        type:
+            type: string
+            scale: null
+            length: 20
+            unique: false
+            nullable: false
+            precision: null
+    manyToOne:
+        epic:
+            targetEntity: App\Domain\Core\Entity\Epic
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: tasks
+            joinColumns:
+                epic_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        release:
+            targetEntity: App\Domain\Core\Entity\Release
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: tasks
+            joinColumns:
+                release_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        creationUser:
+            targetEntity: App\Domain\Core\Entity\User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: tasks
+            joinColumns:
+                creation_user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        currentUser:
+            targetEntity: App\Domain\Core\Entity\User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: tasks
+            joinColumns:
+                current_user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        worklogs:
+            targetEntity: App\Domain\Core\Entity\Worklog
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: task
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        comments:
+            targetEntity: App\Domain\Core\Entity\Comment
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: task
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        watchers:
+            targetEntity: App\Domain\Core\Entity\Watcher
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: task
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    manyToMany:
+        taskTag:
+            targetEntity: App\Domain\Core\Entity\Tag
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: tasks
+            joinTable:
+                name: task_tag
+                joinColumns:
+                    -
+                        name: task_id
+                        referencedColumnName: id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    -
+                        name: tag_id
+                        referencedColumnName: id
+                        onDelete: CASCADE
+            orderBy: null
+    lifecycleCallbacks: {  }
