@@ -4,7 +4,7 @@ App\Domain\Core\Entity\Import:
     repositoryClass: App\Infrastructure\Doctrine\Repository\ImportRepository
     id:
         id:
-            type: string
+            type: integer
             scale: null
             length: null
             unique: false
@@ -12,7 +12,7 @@ App\Domain\Core\Entity\Import:
             precision: null
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: AUTO
     fields:
         date:
             type: datetime

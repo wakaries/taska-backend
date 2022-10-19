@@ -1,13 +1,15 @@
 <?php
 namespace App\Domain\Core\Entity;
 
+use Doctrine\Common\Collections\Collection;
+
 class Import
 {
     private int $id;
     private \DateTime $date;
     private string $data;
 
-    private array $items;
+    private Collection $items;
 
     /**
      * Get the value of id

@@ -4,7 +4,7 @@ App\Domain\Core\Entity\Item:
     repositoryClass: App\Infrastructure\Doctrine\Repository\ItemRepository
     id:
         id:
-            type: string
+            type: integer
             scale: null
             length: null
             unique: false
@@ -12,7 +12,7 @@ App\Domain\Core\Entity\Item:
             precision: null
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: AUTO
     fields:
         data:
             type: text
@@ -36,7 +36,7 @@ App\Domain\Core\Entity\Item:
             mappedBy: null
             inversedBy: items
             joinColumns:
-                epic_id:
+                import_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }
