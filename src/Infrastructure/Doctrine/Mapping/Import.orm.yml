@@ -1,0 +1,34 @@
+App\Domain\Core\Entity\Import:
+    type: entity
+    table: import
+    repositoryClass: App\Infrastructure\Doctrine\Repository\ImportRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        creationDate:
+            type: datetime
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            column: creation_date
+    oneToMany:
+        items:
+            targetEntity: App\Domain\Core\Entity\ImportItem
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: import
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }
