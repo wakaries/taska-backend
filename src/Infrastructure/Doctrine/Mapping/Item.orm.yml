@@ -1,0 +1,42 @@
+App\Domain\Core\Entity\Item:
+    type: entity
+    table: item
+    repositoryClass: App\Infrastructure\Doctrine\Repository\ItemRepository
+    id:
+        id:
+            type: string
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        data:
+            type: text
+            scale: null
+            length: null
+            unique: false
+            nullable: false
+            precision: null
+        status:
+            type: string
+            scale: null
+            length: 20
+            unique: false
+            nullable: false
+            precision: null
+    manyToOne:
+        import:
+            targetEntity: App\Domain\Core\Entity\Import
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: items
+            joinColumns:
+                epic_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
