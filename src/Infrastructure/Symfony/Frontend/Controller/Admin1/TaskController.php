@@ -75,8 +75,11 @@ class TaskController extends AbstractController
     }
 
     #[Route('/admin1/task/edit/{uuid}', name: 'app_admin1_task_edit')]
-    public function edit(Request $request, DetailTaskQuery $detailTaskQuery, PersistTaskAction $persistTaskAction, $uuid = null): Response
-    {
+    public function edit(
+        Request $request, 
+        DetailTaskQuery $detailTaskQuery, 
+        PersistTaskAction $persistTaskAction, $uuid = null
+        ): Response {
         if ($uuid == null) {
             $task = new TaskObject();
             $task->setUuid('qwer');
@@ -88,9 +91,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $this->em->persist($task);
-            $this->em->flush();
+            $persistTaskAction->execute($this->getUser(), $task);
             return $this->redirectToRoute('app_admin1_task_index');
         }
         return $this->render('admin1/task/edit.html.twig', [

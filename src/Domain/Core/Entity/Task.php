@@ -14,6 +14,7 @@ class Task
 {
     const TYPE_TASK = 'task';
     const TYPE_STORY = 'story';
+    const TYPE_BUG = 'bug';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -72,7 +73,8 @@ class Task
     {
         return [
             'Task' => self::TYPE_TASK,
-            'Story' => self::TYPE_STORY
+            'Story' => self::TYPE_STORY,
+            'Bug' => self::TYPE_BUG
         ];
     }
 

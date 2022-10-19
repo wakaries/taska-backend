@@ -22,12 +22,13 @@ class TaskObject
     #[Assert\NotBlank]
     private ?string $title = null;
 
+    #[Assert\NotBlank]
     private ?string $description = null;
     #[Assert\NotBlank]
     #[Assert\Choice(callback: [Task::class, 'getTypesKeys'])]
     private ?string $type = null;
     #[Assert\NotBlank]
-    #[App\Validator\Entity(User::class)]
+    #[App\Infrastructure\Symfony\Validator\Entity(User::class)]
     private ?string $creationUser = null;
 
     private ?string $currentUser = null;

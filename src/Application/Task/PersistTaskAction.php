@@ -14,7 +14,7 @@ class PersistTaskAction {
 
     public function execute(User $user, TaskObject $input): void
     {
-        $task = $this->taskRepository->getByUuid(['uuid' => $input->getUuid()]);
+        $task = $this->taskRepository->findOneBy(['uuid' => $input->getUuid()]);
         if ($task == null) {
             $task = new Task();
             $task->setUuid($input->getUuid());
@@ -29,7 +29,7 @@ class PersistTaskAction {
         $epic = $this->epicRepository->findOneBy(['uuid' => $input->getEpic()]);
         $task->setEpic($epic);
 
-        $this->em->persist();
+        $this->em->persist($task);
         $this->em->flush();
 
         // TODO Enviar evento
