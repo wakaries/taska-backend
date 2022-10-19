@@ -21,7 +21,7 @@ class TaskObject
     private ?\DateTimeInterface $creationDate = null;
     #[Assert\NotBlank]
     private ?string $title = null;
-
+    #[Assert\NotBlank]
     private ?string $description = null;
     #[Assert\NotBlank]
     #[Assert\Choice(callback: [Task::class, 'getTypesKeys'])]

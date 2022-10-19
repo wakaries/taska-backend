@@ -2,7 +2,10 @@
 
 namespace App\Infrastructure\Symfony\Frontend\Controller\Api;
 
+use App\Application\Task\DetailTaskQuery;
+use App\Application\Task\PersistTaskAction;
 use App\Domain\Core\Entity\Task;
+use App\Infrastructure\Symfony\Frontend\Form\TaskType;
 use App\Repository\EpicRepository;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
@@ -81,19 +84,28 @@ class TaskController extends AbstractController
     }
 
     #[Route('/{uuid}', methods:['PUT'])]
-    public function update(EpicRepository $epicRepository, Request $request, $uuid): Response
+    public function update(DetailTaskQuery $detailTaskQuery, PersistTaskAction $persistTaskAction, Request $request, $uuid): Response
     {
         $body = json_decode($request->getContent(), true);
-        $task = $this->taskRepository->findOneBy(['uuid' => $uuid]);
-        $task->setTitle($body['title']);
-        $task->setDescription($body['description']);
-        $task->setType($body['type']);
-        $epic = $epicRepository->findOneBy(['uuid' => $body['epic']]);
-        $task->setEpic($epic);
-        $this->em->flush();
+        $task = $detailTaskQuery->execute($uuid);
+        $form = $this->createForm(TaskType::class, $task, [
+            'csrf_protection' => false
+        ]);
+        $form->submit($body);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $persistTaskAction->execute($this->getUser(), $task);
+            return $this->json([
+                'uuid' => $task->getUuid()
+            ]);
+        }
+
+        $errors = [];
+        foreach ($form->getErrors(true) as $error) {
+            $errors[$error->getOrigin()->getName()] = $error->getMessage();
+        }
 
         return $this->json([
-            'uuid' => $task->getUuid()
+            'Errors' => $errors
         ]);
     }
 

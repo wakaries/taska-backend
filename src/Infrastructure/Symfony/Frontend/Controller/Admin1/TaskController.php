@@ -88,9 +88,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $this->em->persist($task);
-            $this->em->flush();
+            $persistTaskAction->execute($this->getUser(), $task);
             return $this->redirectToRoute('app_admin1_task_index');
         }
         return $this->render('admin1/task/edit.html.twig', [
