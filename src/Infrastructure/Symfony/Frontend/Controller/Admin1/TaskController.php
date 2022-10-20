@@ -6,15 +6,20 @@ use App\Application\Task\DetailTaskQuery;
 use App\Application\Task\PersistTaskAction;
 use App\Application\Task\PersistTaskInput;
 use App\Application\Task\TaskObject;
+use App\Domain\Core\Entity\Import;
 use App\Domain\Core\Entity\Task;
 use App\Infrastructure\Symfony\Frontend\Form\TaskType;
 use App\Infrastructure\Symfony\Security\Voter\TaskVoter;
+use App\Message\ImportMessage;
 use App\Repository\TaskRepository;
 use App\Repository\WorklogRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Workflow\WorkflowInterface;
 
@@ -101,4 +106,40 @@ class TaskController extends AbstractController
         ]);
     }
 
+    #[Route('/admin1/task/import', name: 'app_admin1_task_import')]
+    public function import(Request $request, MessageBusInterface $messageBus): Response
+    {
+        $builder = $this->createFormBuilder()
+            ->add('file', FileType::class)
+        ;
+        $form = $builder->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            /** @var UploadedFile $file */
+            $file = $data['file'];
+            $import = new Import();
+            $import->setDate(new \DateTime());
+            $import->setData($file->getContent());
+            $this->em->persist($import);
+            $this->em->flush();
+
+            $message = new ImportMessage();
+            $message->setImportId($import->getId());
+            $messageBus->dispatch($message);
+
+            return $this->redirectToRoute('app_admin1_task_importstatus');
+        }
+
+        return $this->render('admin1/task/import.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/admin1/task/importstatus', name: 'app_admin1_task_importstatus')]
+    public function importstatus(): Response
+    {
+        return $this->render('admin1/task/importstatus.html.twig');
+    }
 }

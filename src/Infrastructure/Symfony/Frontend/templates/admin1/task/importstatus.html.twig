@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Task edit{% endblock %}
+
+{% block body %}
+<div class="progress">
+  <div class="progress-bar bg-success progress-success" role="progressbar" aria-label="Segment two" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+  <div class="progress-bar bg-danger progress-error" role="progressbar" aria-label="Segment three" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+<script>
+const eventSource = new EventSource("{{ mercure('https://loquesea/asdf')|escape('js') }}");
+eventSource.onmessage = event => {
+    // Will be called every time an update is published by the server
+    const data = JSON.parse(event.data);
+    console.log(data);
+    const successPercentage = data.status.success;
+    const errorPercentage = data.status.error;
+    $(".progress-success").css("width", successPercentage + "%").attr("aria-valuenow", successPercentage);
+    $(".progress-error").css("width", errorPercentage + "%").attr("aria-valuenow", errorPercentage);
+}
+
+</script>
+{% endblock %}

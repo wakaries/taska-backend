@@ -33,9 +33,12 @@ class TestMercureCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $data = json_encode([
-            'status' => 'ok'
+            'status' => [
+                'success' => 27,
+                'error' => 12
+            ]
         ]);
-        $update = new Update('https://loquesea/asdf', $data, true);
+        $update = new Update('https://loquesea/asdf', $data, false);
         $this->hub->publish($update);
 
         return Command::SUCCESS;
